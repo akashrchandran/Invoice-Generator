@@ -3,7 +3,7 @@ from pyinvoice.templates import SimpleInvoice
 
 def generate_invoice(details):
     doc = SimpleInvoice('invoice.pdf')
-    doc.is_paid = False
+    doc.is_paid = details.get("invoice_type") == "paid"
     doc.invoice_info = InvoiceInfo(details.get("invoice_id"), details.get("invoice_date"), details.get("invoice_due_date"))
     doc.service_provider_info = ServiceProviderInfo(
         name=details.get("sp_fname") + " " + details.get("sp_lname"),
@@ -30,7 +30,7 @@ def generate_invoice(details):
     item_price = details.getlist('item_unitprice[]')
     for x in range(int(details.get("item_nos"))):
         doc.add_item(Item(item_name[x], item_desc[x], item_qty[x], item_price[x]))
-    doc.set_item_tax_rate(details.get("tax_percentage"))  
+    doc.set_item_tax_rate(details.get("tax_percentage"))
     doc.set_bottom_tip(details.get("footer"))
 
     doc.finish()

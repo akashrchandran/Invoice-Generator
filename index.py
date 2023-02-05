@@ -17,7 +17,7 @@ def download():
         details = request.form
         file_name = details.get("invoice_id")+'.pdf'
         if generate_invoice(details):
-            return send_file('invoice.pdf', download_name=file_name)
+            return send_file('invoice.pdf', as_attachment=True, download_name=file_name)
         else:
             return "Error"
 
