@@ -1,7 +1,9 @@
-from flask import Flask, after_this_request, render_template, request, send_file
-from invoice_generator import generate_invoice
 import random
 from datetime import date
+
+from flask import Flask, render_template, request, send_file
+
+from invoice_generator import generate_invoice
 
 app = Flask(__name__)
 
