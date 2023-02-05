@@ -23,7 +23,11 @@ pip install -r requirements.txt
 ```
 
 > Run local server using
-
+### Linux based OS
+```
+python3 index.py
+```
+### Windows
 ```
 py index.py
 ```
