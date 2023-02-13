@@ -6,7 +6,12 @@ Live deployed version available at https://invoice-generator.akashrchandran.repl
 
 ## Example Usage
 
-![Code_YANfBh7EPB](https://user-images.githubusercontent.com/78685510/216826449-2905e803-064d-4b40-876c-d78936f0edff.gif)
+![speed_up_gif](https://user-images.githubusercontent.com/78685510/218547184-32a6ee9e-8e39-4525-b4c1-c48d1b186a1a.gif)
+<div align="center">
+  
+__You can check the output file at [here](https://github.com/akashrchandran/Invoice-Generator/blob/master/invoice_43176.pdf).__
+  
+</div>
 
 # Local Installation
 
