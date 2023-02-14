@@ -44,4 +44,4 @@ def invoice():
     return render_template('invoice.html', image=image_base64, data=data, invoice_date=invoice_date, invoice_due_date=invoice_due_date, items=items, sub_total=sub_total, tax=tax, total=total)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080, debug=True)
+    app.run(host='0.0.0.0', port=8080)

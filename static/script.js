@@ -34,3 +34,48 @@ $('#trans_select').change(function () {
         $('#paid_through_other').hide();
     }
 });
+
+$(document).ready(function () {
+    $('#printDoc').click(function () {
+    // Create a new element to contain the body content
+    var printContent = document.createElement('div');
+    printContent.innerHTML = document.body.innerHTML;
+    
+    // Remove the title and URL elements
+    var buttons = printContent.querySelector('.btn');
+    buttons.forEach(function(button) {
+        button.style.display = 'none'; // hide each button
+     });
+    
+    // Open a new window and print the contents
+    var printWindow = window.open();
+    printWindow.document.write(printContent.innerHTML);
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.print();
+    printWindow.close();
+  })});
+
+
+$(document).ready(function () {
+    $('#generatePDF').click(function () {
+        var element = document.body; // choose the element that you want to convert to PDF
+        var buttons = element.querySelectorAll('.btn'); // select all buttons on the page
+        buttons.forEach(function(button) {
+        button.style.display = 'none'; // hide each button
+        });
+        var opt = {
+            margin: [0, 0, 0, 0],
+            filename: 'myfile.pdf',
+            image: { type: 'jpeg', quality: 1 },
+            html2canvas: { scale: 3, dpi: 300, letterRendering: true, useCORS: true },
+            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+        html2pdf().set(opt).from(element).save();
+        setInterval(function () {
+            buttons.forEach(function(button) {
+            button.style.display = ''; // show each button
+            });
+        }, 1000);
+    });
+});
