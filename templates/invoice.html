@@ -33,7 +33,7 @@
                 <li class="text-muted">{{ data['c_street'] }}, {{ data['c_city'] }}</li>
                 <li class="text-muted">{{ data['c_state'] }}, {{ data['c_country'] }}</li>
                 <li class="text-muted">{{ data['c_postcode'] }}</li>
-                <li class="text-muted"><i class="fas fa-envelope"></i>{{ data['c_email'] }}</li>
+                <li class="text-muted"><i class="fas fa-envelope"></i> {{ data['c_email'] }}</li>
               </ul>
             </div>
             <div class="col-xl-4">
@@ -99,11 +99,10 @@
           <hr>
           <div class="row">
             <div class="col-xl-10">
-              <p>Thank you for your purchase</p>
+              <p>{{ data['footer'] }}</p>
             </div>
             <div class="col-xl-2">
-              <button type="button" class="btn btn-primary text-capitalize"
-                style="background-color:#60bdf3 ;">Pay Now</button>
+              <button type="button" class="btn btn-outline-danger text-capitalize"">Pay Now</button>
             </div>
           </div>
   

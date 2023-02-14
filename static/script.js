@@ -14,31 +14,23 @@ $(document).ready(function () {
         }
         calc();
     });
-    
-    $('#tab_logic tbody').on('keyup change', function () {
-        calc();
-    });
-    $('#advance_amount').on('keyup change', function () {
-        calc_total();
-    });
-
-
 });
 
-function calc() {
-    $('#tab_logic tbody tr').each(function (i, element) {
-        var html = $(this).html();
-        if (html != '') {
-            calc_total();
-        }
-    });
-}
+$('#invoice_type').change(function () {
+    if ($(this).val() == 'paid') {
+        $('#transaction').show();
+    }
+    else {
+        $('#transaction').hide();
+    }
+});
 
-function calc_total() {
-    total = 0;
-    $('.total').each(function () {
-        total += parseInt($(this).val());
-    });
-    $('#sub_total').val(total.toFixed(2));
-    $('#total_amount').val((total - $('#advance_amount').val()).toFixed(2));
-}
+$('#trans_select').change(function () {
+    console.log($(this).val() === 'other');
+    if ($(this).val() === 'other') {
+        $('#paid_through_other').show();
+    }
+    else {
+        $('#paid_through_other').hide();
+    }
+});

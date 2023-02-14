@@ -13,7 +13,7 @@
                 <input type="text" class="form-control" placeholder="File Name" aria-label="File aNme" name="filename"
                     value="{{ invoice_id }}.pdf" readonly>
                 <label class="form-label mt-3">Invoice Type <span style="color: red;">*</span></label>
-                <select class="form-select" aria-label="Default select example" name="invoice_type">
+                <select class="form-select" aria-label="Default select example" name="invoice_type" id="invoice_type">
                     <option value="paid">Paid</option>
                     <option value="unpaid" selected>Unpaid</option>
                 </select>
@@ -194,6 +194,35 @@
                         </table>
                     </div>
                 </div> -->
+            </div>
+        </div>
+    </div>
+    <div class="container m-3" id="transaction" style="display: none;">
+        <div class="card">
+            <h5 class="card-header">Transcation Details</h5>
+            <div class="card-body">
+                <div class="form-text text-danger">
+                    This section is only available if the invoice is paid.
+                </div>
+                <div class="mb-3">
+                    <label class="form-label mt-3">Mode Of Payment <span style="color: red;">*</span></label>
+                    <select class="form-select" aria-label="Select transaction done through" name="paid_through" id="trans_select">
+                        <option value="Cash" selected>Cash</option>
+                        <option value="Paypal">Paypal</option>
+                        <option value="Debit Card">Debit Card</option>
+                        <option value="Credit Card">Credit Card</option>
+                        <option value="UPI">UPI</option>
+                        <option value="Net Banking">Net Banking</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <div class="form-text">
+                        Select the method through which the payment was done.
+                    </div>
+                </div>
+                <div class="mb-3"  style="display: none;" id="paid_through_other">
+                    <label class="form-label">Please specify <span style="color: red;">*</span></label>
+                    <input type="text" class="form-control"  placeholder="Mode of payment" name="paid_through_other">
+                </div>
             </div>
         </div>
     </div>
