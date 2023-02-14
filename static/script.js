@@ -64,9 +64,10 @@ $(document).ready(function () {
         buttons.forEach(function(button) {
         button.style.display = 'none'; // hide each button
         });
+        filename = document.getElementById('filename').getAttribute('data-filename');
         var opt = {
             margin: [0, 0, 0, 0],
-            filename: 'myfile.pdf',
+            filename: `invoice_${filename}`,
             image: { type: 'jpeg', quality: 1 },
             html2canvas: { scale: 3, dpi: 300, letterRendering: true, useCORS: true },
             jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
