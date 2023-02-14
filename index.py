@@ -4,8 +4,6 @@ from datetime import date, datetime
 
 from flask import Flask, render_template, request, send_file
 
-from invoice_generator import generate_invoice
-
 app = Flask(__name__)
 
 @app.route('/')
