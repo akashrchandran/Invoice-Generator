@@ -11,16 +11,6 @@ def index():
     invoice_id = ''.join(random.sample('0123456789', 6))
     return render_template('index.html', invoice_id=invoice_id, date = date.today())
 
-@app.route('/download', methods=['POST'])
-def download():
-    if request.method == 'POST':
-        details = request.form
-        file_name = details.get("invoice_id")+'.pdf'
-        if generate_invoice(details):
-            return send_file('invoice.pdf', as_attachment=True, download_name=file_name)
-        else:
-            return "Error"
-
 @app.route('/invoice', methods=['POST'])
 def invoice():
     data=request.form
