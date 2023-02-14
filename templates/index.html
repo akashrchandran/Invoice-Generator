@@ -1,289 +1,220 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice Generator</title>
-    <meta name="description" content="A simple invoice generator made using python flask mini web framework.">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='icons/favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='icons/favicon-16x16.png') }}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
-        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-</head>
-
-<body>
-    <header class="d-flex justify-content-center m-5">
-        <h1>Invoice Generator 📜</h1>
-    </header>
-    <form action="/download" method="post" class="d-flex flex-column align-items-center"">
-        <small class=" float-start"><span style="color: red;">*</span> marked fields are required to be filled.</small>
-        <div class=" container m-3">
-            <div class="card">
-                <h5 class="card-header">Invoice Details</h5>
-                <div class="card-body">
-                    <label class="form-label">Invoice File Name <span style="color: red;">*</span></label>
-                    <input type="text" class="form-control" placeholder="File Name" aria-label="File aNme"
-                        name="filename" value="{{ invoice_id }}.pdf" readonly>
-                    <label class="form-label mt-3">Invoice Type <span style="color: red;">*</span></label>
-                    <select class="form-select" aria-label="Default select example" name="invoice_type">
-                        <option value="paid">Paid</option>
-                        <option value="unpaid" selected>Unpaid</option>
-                    </select>
+{% extends 'base.html' %}
+{% block body %}
+<header class="d-flex justify-content-center m-5">
+    <h1>Invoice Generator 📜</h1>
+</header>
+<form action="/invoice" method="post" enctype="multipart/form-data" class="d-flex flex-column align-items-center"">
+    <small class=" float-start"><span style="color: red;">*</span> marked fields are required to be filled.</small>
+    <div class=" container m-3">
+        <div class="card">
+            <h5 class="card-header">Invoice Details</h5>
+            <div class="card-body">
+                <label class="form-label">Invoice File Name <span style="color: red;">*</span></label>
+                <input type="text" class="form-control" placeholder="File Name" aria-label="File aNme" name="filename"
+                    value="{{ invoice_id }}.pdf" readonly>
+                <label class="form-label mt-3">Invoice Type <span style="color: red;">*</span></label>
+                <select class="form-select" aria-label="Default select example" name="invoice_type">
+                    <option value="paid">Paid</option>
+                    <option value="unpaid" selected>Unpaid</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class=" container m-3">
+        <div class="card">
+            <h5 class="card-header">Invoice Details</h5>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label">Invoice ID <span style="color: red;">*</span></label>
+                    <input type="text" class="form-control" name="invoice_id" placeholder="Invoice id"
+                        value="{{ invoice_id }}" readonly>
+                    <div class="form-text">
+                        Auto generated with random number, you cannot edit this.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Invoice Date <span style="color: red;">*</span></label>
+                    <input type="date" class="form-control" name="invoice_date" placeholder="Another input placeholder"
+                        value="{{ date }}" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Invoice Due Date <span style="color: red;">*</span></label>
+                    <input type="date" class="form-control" name="invoice_due_date"
+                        placeholder="Another input placeholder" required>
                 </div>
             </div>
         </div>
-        <div class=" container m-3">
-            <div class="card">
-                <h5 class="card-header">Invoice Details</h5>
-                <div class="card-body">
-                    <div class="mb-3">
-                        <label class="form-label">Invoice ID <span style="color: red;">*</span></label>
-                        <input type="text" class="form-control" name="invoice_id" placeholder="Invoice id"
-                            value="{{ invoice_id }}" readonly>
-                        <div class="form-text">
-                            Auto generated with random number, you cannot edit this.
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Invoice Date <span style="color: red;">*</span></label>
-                        <input type="date" class="form-control" name="invoice_date"
-                            placeholder="Another input placeholder" value="{{ date }}" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Invoice Due Date <span style="color: red;">*</span></label>
-                        <input type="date" class="form-control" name="invoice_due_date"
-                            placeholder="Another input placeholder" required>
+    </div>
+    <div class="container m-3">
+        <div class="card">
+            <h5 class="card-header">Service Provider Details</h5>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <label class="form-label">Company name <span style="color: red;">*</span></label>
+                        <input type="text" class="form-control" placeholder="Company name" aria-label="Company name"
+                            name="sp_name" required>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="container m-3">
-            <div class="card">
-                <h5 class="card-header">Service Provider Details</h5>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col">
-                            <label class="form-label">First Name <span style="color: red;">*</span></label>
-                            <input type="text" class="form-control" placeholder="First name" aria-label="First name"
-                                name="sp_fname" required>
-                        </div>
-                        <div class="col">
-                            <label class="form-label">Last Name <span style="color: red;">*</span></label>
-                            <input type="text" class="form-control" placeholder="Last name" aria-label="Last name"
-                                name="sp_lname" required>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <label class="form-label mt-3">Street <span style="color: red;">*</span></label>
-                            <input type="text" class="form-control" placeholder="Street" aria-label="Street"
-                                name="sp_street" required>
-                        </div>
-                        <div class="col">
-                            <label class="form-label mt-3">City <span style="color: red;">*</span></label>
-                            <input type="text" class="form-control" placeholder="City" aria-label="City" name="sp_city"
-                                required>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <label class="form-label mt-3">State <span style="color: red;">*</span></label>
-                            <input type="text" class="form-control" placeholder="State" aria-label="State"
-                                name="sp_state" required>
-                        </div>
-                        <div class="col">
-                            <label class="form-label mt-3">Country <span style="color: red;">*</span></label>
-                            <input type="text" class="form-control" placeholder="Country" aria-label="Country"
-                                name="sp_country" required>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <label class="form-label mt-3">Post code <span style="color: red;">*</span></label>
-                            <input type="text" class="form-control" placeholder="Post code" aria-label="Post code"
-                                name="sp_postcode" required>
-                        </div>
-                        <div class="col">
-                            <label class="form-label mt-3">GSTIN <span style="color: red;">*</span></label>
-                            <input type="text" class="form-control" placeholder="GSTIN" aria-label="GSTIN" name="sp_gst"
-                                required>
-                        </div>
+                <div class="row">
+                    <div class="col">
+                        <label class="form-label mt-3">Company logo <span style="color: red;">*</span></label>
+                        <input type="file" class="form-control" placeholder="Company logo" aria-label="Company logo"
+                            name="sp_logo" accept="image/*" required>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="container m-3">
-            <div class="card">
-                <h5 class="card-header">Customer Details</h5>
-                <div class="card-body">
-                    <div class="mb-3">
-                        <label class="form-label">Customer ID <span style="color: red;">*</span></label>
-                        <input type="text" class="form-control" name="c_id" placeholder="Customer id" value="{{ c_id }}"
-                            readonly>
-                        <div class="form-text">
-                            Auto generated with random number, you cannot edit this.
-                        </div>
+    </div>
+    <div class="container m-3">
+        <div class="card">
+            <h5 class="card-header">Customer Details</h5>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <label class="form-label">First Name <span style="color: red;">*</span></label>
+                        <input type="text" class="form-control" placeholder="First name" aria-label="First name"
+                            name="c_fname" required>
                     </div>
-                    <div class="row">
-                        <div class="col">
-                            <label class="form-label">First Name <span style="color: red;">*</span></label>
-                            <input type="text" class="form-control" placeholder="First name" aria-label="First name"
-                                name="c_fname" required>
-                        </div>
-                        <div class="col">
-                            <label class="form-label">Last Name</label>
-                            <input type="text" class="form-control" placeholder="Last name" aria-label="Last name"
-                                name="c_lname">
-                        </div>
+                    <div class="col">
+                        <label class="form-label">Last Name</label>
+                        <input type="text" class="form-control" placeholder="Last name" aria-label="Last name"
+                            name="c_lname">
                     </div>
-                    <div class="row">
-                        <div class="col">
-                            <label class="form-label mt-3">Street</label>
-                            <input type="text" class="form-control" placeholder="Street" aria-label="Street"
-                                name="c_street">
-                        </div>
-                        <div class="col">
-                            <label class="form-label mt-3">City</label>
-                            <input type="text" class="form-control" placeholder="City" aria-label="City" name="c_city">
-                        </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label class="form-label mt-3">Street</label>
+                        <input type="text" class="form-control" placeholder="Street" aria-label="Street"
+                            name="c_street">
                     </div>
-                    <div class="row">
-                        <div class="col">
-                            <label class="form-label mt-3">State</label>
-                            <input type="text" class="form-control" placeholder="State" aria-label="State"
-                                name="c_state">
-                        </div>
-                        <div class="col">
-                            <label class="form-label mt-3">Country</label>
-                            <input type="text" class="form-control" placeholder="Country" aria-label="Country"
-                                name="c_country">
-                        </div>
+                    <div class="col">
+                        <label class="form-label mt-3">City</label>
+                        <input type="text" class="form-control" placeholder="City" aria-label="City" name="c_city">
                     </div>
-                    <div class="row">
-                        <div class="col">
-                            <label class="form-label mt-3">Post code</label>
-                            <input type="text" class="form-control" placeholder="Post code" aria-label="Post code"
-                                name="c_postcode">
-                        </div>
-                        <div class="col">
-                            <label class="form-label mt-3">Email</label>
-                            <input type="email" class="form-control" placeholder="Email" aria-label="Email"
-                                name="c_email">
-                        </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label class="form-label mt-3">State</label>
+                        <input type="text" class="form-control" placeholder="State" aria-label="State" name="c_state">
+                    </div>
+                    <div class="col">
+                        <label class="form-label mt-3">Country</label>
+                        <input type="text" class="form-control" placeholder="Country" aria-label="Country"
+                            name="c_country">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label class="form-label mt-3">Post code</label>
+                        <input type="text" class="form-control" placeholder="Post code" aria-label="Post code"
+                            name="c_postcode">
+                    </div>
+                    <div class="col">
+                        <label class="form-label mt-3">Email</label>
+                        <input type="email" class="form-control" placeholder="Email" aria-label="Email" name="c_email">
                     </div>
                 </div>
             </div>
         </div>
-        <div class="container m-3">
-            <div class="card">
-                <h5 class="card-header">Invoice Details</h5>
-                <div class="card-body">
-                    <div class="mb-5">
-                        <label class="form-label">Tax Percentage <span style="color: red;">*</span></label>
-                        <input type="number" class="form-control" name="tax_percentage" placeholder="Tax percentage"
-                            value="18" required>
-                        <div class="form-text">
-                            Default is 18 %, you may edit if you want to.
-                        </div>
+    </div>
+    <div class="container m-3">
+        <div class="card">
+            <h5 class="card-header">Invoice Details</h5>
+            <div class="card-body">
+                <div class="mb-5">
+                    <label class="form-label">Tax Percentage <span style="color: red;">*</span></label>
+                    <input type="number" class="form-control" name="tax_percentage" placeholder="Tax percentage"
+                        value="18" required>
+                    <div class="form-text">
+                        Default is 18 %, you may edit if you want to.
                     </div>
-                    <div class="row clearfix">
-                        <div class="col-md-12">
-                            <table class="table table-bordered table-hover" id="tab_logic">
-                                <input type="hidden" name="item_nos" id="item_nos" value="1">
-                                <col width="20%">
-                                <col width="40%">
-                                <col width="10%">
-                                <col width="10%">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center"> Item name </th>
-                                        <th class="text-center"> Item Description </th>
-                                        <th class="text-center"> Units </th>
-                                        <th class="text-center"> Unit Price </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr id="addr0">
-                                        <td>
-                                            <input type="text" name='item_name[]' placeholder='Item Name'
-                                                class="form-control" required />
-                                        </td>
-                                        <td>
-                                            <input type="text" name='item_desc[]' placeholder='Item Desc...'
-                                                class="form-control" required />
-                                        </td>
-                                        <td>
-                                            <input type="number" name='item_unit[]' placeholder='Units'
-                                                class="form-control desc" id='item_unit' required />
-                                        </td>
-                                        <td>
-                                            <input type="number" name='item_unitprice[]' placeholder='Unit Price'
-                                                class="form-control cat" id="item_unitprice" required />
-                                        </td>
-                                    </tr>
-                                    <tr id="addr1"></tr>
-                                </tbody>
-                            </table>
-                        </div>
+                </div>
+                <div class="row clearfix">
+                    <div class="col-md-12">
+                        <table class="table table-bordered table-hover" id="tab_logic">
+                            <input type="hidden" name="item_nos" id="item_nos" value="1">
+                            <col width="40%">
+                            <col width="20%">
+                            <col width="20%">
+                            <thead>
+                                <tr>
+                                    <th class="text-center"> Item Name </th>
+                                    <th class="text-center"> Units </th>
+                                    <th class="text-center"> Unit Price </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr id="addr0">
+                                    <td>
+                                        <input type="text" name='item_name[]' placeholder='Item Name'
+                                            class="form-control" required />
+                                    </td>
+                                    <td>
+                                        <input type="number" name='item_unit[]' placeholder='Units'
+                                            class="form-control desc" id='item_unit' required />
+                                    </td>
+                                    <td>
+                                        <input type="number" name='item_unitprice[]' placeholder='Unit Price'
+                                            class="form-control cat" id="item_unitprice" required />
+                                    </td>
+                                </tr>
+                                <tr id="addr1"></tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="row clearfix float-start">
-                        <div class="col-md-12">
-                            <button type="button" id="add_row" class="btn btn-primary">Add Row</button>
-                            <button type="button" id='delete_row' class="btn btn-danger">Delete Row</button>
-                        </div>
+                </div>
+                <div class="row clearfix float-start">
+                    <div class="col-md-12">
+                        <button type="button" id="add_row" class="btn btn-primary">Add Row</button>
+                        <button type="button" id='delete_row' class="btn btn-danger">Delete Row</button>
                     </div>
-                    <!-- <div class="row clearfix float-end" style="margin-top:20px">
-                        <div class="pull-right col-md-12">
-                            <table class="table table-bordered table-hover" id="tab_logic_total">
-                                <tbody>
-                                    <tr>
-                                        <th class="text-center">Sub Total</th>
-                                        <td class="text-center"><input type="number" name='sub_total' placeholder='0.00'
-                                                class="form-control" id="sub_total" readonly /></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-center">Tax</th>
-                                        <td class="text-center"><input type="number" name='advance_amount'
-                                                id="advance_amount" placeholder='0.00' class="form-control" /></td>
-                                    </tr>
-                                    <tr>
-                                        <th class="text-center">Grand Total</th>
-                                        <td class="text-center"><input type="number" name='total_amount'
-                                                id="total_amount" placeholder='0.00' class="form-control" readonly />
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div> -->
+                </div>
+                <!-- <div class="row clearfix float-end" style="margin-top:20px">
+                    <div class="pull-right col-md-12">
+                        <table class="table table-bordered table-hover" id="tab_logic_total">
+                            <tbody>
+                                <tr>
+                                    <th class="text-center">Sub Total</th>
+                                    <td class="text-center"><input type="number" name='sub_total' placeholder='0.00'
+                                            class="form-control" id="sub_total" readonly /></td>
+                                </tr>
+                                <tr>
+                                    <th class="text-center">Tax</th>
+                                    <td class="text-center"><input type="number" name='advance_amount'
+                                            id="advance_amount" placeholder='0.00' class="form-control" /></td>
+                                </tr>
+                                <tr>
+                                    <th class="text-center">Grand Total</th>
+                                    <td class="text-center"><input type="number" name='total_amount'
+                                            id="total_amount" placeholder='0.00' class="form-control" readonly />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+    <div class="container m-3">
+        <div class="card">
+            <h5 class="card-header">Footer Text</h5>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label">Text</label>
+                    <div class="form-text mb-3">
+                        Give a descriptive text to be placed at the bottom of the invoice.
+                    </div>
+                    <textarea name='footer'
+                        placeholder="Email: example@example.com<br />Don't hesitate to contact us for any questions."
+                        class="form-control desc" /></textarea>
                 </div>
             </div>
         </div>
-        <div class="container m-3">
-            <div class="card">
-                <h5 class="card-header">Footer Text</h5>
-                <div class="card-body">
-                    <div class="mb-3">
-                        <label class="form-label">Text</label>
-                        <div class="form-text mb-3">
-                            Give a descriptive text to be placed at the bottom of the invoice.
-                        </div>
-                        <textarea name='footer'
-                            placeholder="Email: example@example.com<br />Don't hesitate to contact us for any questions."
-                            class="form-control desc" /></textarea>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container m-5 d-flex justify-content-center">
-            <button type="submit" class="btn btn-success">Generate Invoice</button>
-        </div>
-    </form>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
-</body>
-
-</html>
+    </div>
+    <div class="container m-5 d-flex justify-content-center">
+        <button type="submit" class="btn btn-success">Generate Invoice</button>
+    </div>
+</form>
+{% endblock %}
