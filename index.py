@@ -1,14 +1,13 @@
-import base64
 import os
 import random
 from datetime import date, datetime
-from mongo import add_invoice
-import requests
-from werkzeug.datastructures import MultiDict
-
-from flask import Flask, render_template, request
 
 import dotenv as dotenv
+import requests
+from flask import Flask, render_template, request
+from werkzeug.datastructures import MultiDict
+
+from mongo import add_invoice
 
 dotenv.load_dotenv()
 
