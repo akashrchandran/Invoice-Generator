@@ -80,3 +80,8 @@ $(document).ready(function () {
         }, 1000);
     });
 });
+
+function copyToClipboard() {
+    link = document.getElementById('copyLink').href
+    navigator.clipboard.writeText(link);
+}

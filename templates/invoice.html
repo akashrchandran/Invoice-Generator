@@ -7,12 +7,33 @@
         <div class="col-xl-9">
           <p style="color: #7e8d9f;font-size: 20px;">Invoice >> <strong>ID: #{{ data['invoice_id'] }}</strong></p>
         </div>
-        <div class="col-xl-3 float-end">
+        <div class="col-xl-3 mb-2 float-end">
           <a class="btn btn-light text-capitalize border-0" data-mdb-ripple-color="dark"
-            data-filename="{{ data['filename'] }}" onclick="window.print();" id="filename"><i class="fas fa-print text-primary"></i>
+            data-filename="{{ data['filename'] }}" onclick="window.print();" id="filename"><i
+              class="fas fa-print text-primary"></i>
             Print</a>
           <a class="btn btn-light text-capitalize" data-mdb-ripple-color="dark" id="generatePDF"><i
               class="far fa-file-pdf text-danger"></i> Export</a>
+          {% if share_link %}
+          <div class="dropdown" style="display: inline">
+            <a class="btn btn-light text-capitalize dropdown-toggle" role="button" data-mdb-ripple-color="dark" href="#"
+              role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fa fa-share-alt text-success"></i> Share</a>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item"
+                  href="https://api.whatsapp.com/send?text=Hi, here's the invoice I generated {{ share_link }}."><i
+                    class="fab fa-whatsapp text-success"></i> Whatsapp</a></li>
+              <li><a class="dropdown-item" href="tg://msg?text=Hi, here's the invoice I generated {{ share_link }}"><i
+                    class="fab fa-telegram-plane text-primary"></i> Telegram</a></li>
+              <li><a class="dropdown-item"
+                  href="mailto:?subject=Invoice&body=Hi, here's the invoice I generated {{ share_link }}"><i
+                    class="fas fa-envelope"></i> Email</a></li>
+              <li><a class="dropdown-item" id="copyLink" onclick="copyToClipboard()" href="{{ share_link }}"><i
+                    class="fas fa-link text-secondary"></i> Copy link</a></li>
+            </ul>
+          </div>
+          {% endif %}
         </div>
         <hr>
       </div>

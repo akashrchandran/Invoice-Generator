@@ -1,16 +1,13 @@
+import base64
 import os
 import random
 from datetime import date, datetime
 
-import dotenv as dotenv
 import requests
 from flask import Flask, render_template, request
 from werkzeug.datastructures import MultiDict
 
-from mongo import add_invoice
-
-dotenv.load_dotenv()
-
+from mongo import add_invoice, get_invoice
 
 app = Flask(__name__)
 
@@ -46,11 +43,15 @@ def invoice():
     form['tax'] = tax
     form['total'] = total
     add_invoice(form.to_dict())
-    return render_template('invoice.html', image=img_url, data=data, invoice_date=invoice_date, invoice_due_date=invoice_due_date, items=items, sub_total=sub_total, tax=tax, total=total)
+    share_link = f'{request.url_root}share?id={base64.b64encode(data["invoice_id"].encode("utf-8")).decode("utf-8")}'
+    return render_template('invoice.html', image=img_url, data=data, invoice_date=invoice_date, invoice_due_date=invoice_due_date, items=items, sub_total=sub_total, tax=tax, total=total, share_link=share_link)
 
 @app.route('/share', methods=['GET'])
-def share(encoded_id):
-    return render_template('invoice.html', image=img_url, data=data, invoice_date=invoice_date, invoice_due_date=invoice_due_date, items=items, sub_total=sub_total, tax=tax, total=total)
+def share():
+    share_id = request.args.get('id')
+    invoice_id = base64.b64decode(share_id).decode('utf-8')
+    data = get_invoice(invoice_id)
+    return render_template('invoice.html', image=data['image'], data=data, invoice_date=data['invoice_date'], invoice_due_date=data['invoice_due_date'], items=data['items'], sub_total=data['sub_total'], tax=data['tax'], total=data['total'])
 
 def upload_image(image_data):
     url = "https://api.imgbb.com/1/upload"
