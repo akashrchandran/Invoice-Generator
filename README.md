@@ -40,5 +40,3 @@ py index.py
 > Now open any browser on your computer and enter this link `http://127.0.0.1:8080` and press enter.
 
 You should be able to see the app running.
-
-
