@@ -29,7 +29,7 @@
               <li><a class="dropdown-item"
                   href="mailto:?subject=Invoice&body=Hi, here's the invoice I generated {{ share_link }}"><i
                     class="fas fa-envelope"></i> Email</a></li>
-              <li><a class="dropdown-item" id="copyLink" onclick="copyToClipboard()" href="{{ share_link }}"><i
+              <li><a class="dropdown-item" data-share="{{ share_link }}" onclick="copyToClipboard()"><i
                     class="fas fa-link text-secondary"></i> Copy link</a></li>
             </ul>
           </div>

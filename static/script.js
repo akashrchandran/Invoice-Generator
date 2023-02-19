@@ -82,6 +82,6 @@ $(document).ready(function () {
 });
 
 function copyToClipboard() {
-    link = document.getElementById('copyLink').href
+    link = document.getElementById('copyLink').getAttribute('data-share');
     navigator.clipboard.writeText(link);
 }
