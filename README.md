@@ -6,10 +6,11 @@ Live deployed version available at https://invoice-generator.akashrchandran.repl
 
 ## Example Usage
 
-![speed_up_gif](https://user-images.githubusercontent.com/78685510/218547184-32a6ee9e-8e39-4525-b4c1-c48d1b186a1a.gif)
+![ezgif com-gif-maker (1)](https://user-images.githubusercontent.com/78685510/220176643-d2b2e3d0-9f8d-476d-8a23-782fce703cab.gif)
+
 <div align="center">
   
-__You can check the output file at [here](https://github.com/akashrchandran/Invoice-Generator/blob/master/invoice_43176.pdf).__
+__You can check the output file at [here](https://invoice-generator.akashrchandran.repl.co/share?id=NDM3MTUw).__
   
 </div>
 
@@ -26,7 +27,11 @@ git clone https://github.com/akashrchandran/Invoice-Generator/
 cd Invoice-Generator
 pip install -r requirements.txt
 ```
-
+> Database and Image hosting
+### Mongo DB
+you can sign up at [Mongo DB](https://www.mongodb.com/) and create a free cluster and set your URI as env variable `MONGO_URI`
+### ImgBB
+you can sign up at [ImgBB](https://imgbb.com/) and get your API key and then set it as env variable `ImgBB_API_KEY`
 > Run local server using
 ### Linux based OS
 ```
