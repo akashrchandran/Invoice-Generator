@@ -11,3 +11,7 @@ def add_invoice(data):
 
 def get_invoice(invoice_id):
     return invoice.find_one({'invoice_id': invoice_id})
+
+def update_invoice(invoice_id, method):
+    invoice.update_one({'invoice_id': f'{invoice_id}'}, {"$set": {'invoice_type': 'paid', 'paid_through': method.title()}}, upsert=True)
+
