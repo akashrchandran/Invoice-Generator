@@ -7,9 +7,13 @@ import requests
 from flask import Flask, render_template, request
 from werkzeug.datastructures import MultiDict
 
-from mongo import add_invoice, get_invoice
+from mongo import add_invoice, get_invoice, update_invoice
+import razorpay
 
 app = Flask(__name__)
+
+client = razorpay.Client(auth=("rzp_test_RlX83k2oTLomoQ", os.environ.get('RAZORPAY_Secret')))
+client.set_app_details({"title" : "Invoice Generator", "version" : "v0.0.1"})
 
 @app.route('/')
 def index():
@@ -63,6 +67,16 @@ def upload_image(image_data):
     }
     response = requests.post(url, data=payload, files=files)
     return response.json()['data']['url']
+
+
+@app.route('/success', methods=['POST'])
+def success():
+    payment_id = request.form['razorpay_payment_id']
+    invoice_id = request.form['invoice_id']
+    pay_details = client.payment.fetch(payment_id)
+    update_invoice(invoice_id, pay_details['method'])
+    return render_template('success.html', invoice_id=invoice_id)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080)
