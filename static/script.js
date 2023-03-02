@@ -86,8 +86,9 @@ function copyToClipboard() {
     link = document.getElementById('copyLink').getAttribute('data-share');
     navigator.clipboard.writeText(link);
 }
-
+if (window.location.pathname == '/') {
 const tomorrow = new Date();
 tomorrow.setDate(tomorrow.getDate() + 1);
 const formattedDate = tomorrow.toISOString().slice(0, 10);
 document.getElementById("invoice_due_date").setAttribute("min", formattedDate);
+}

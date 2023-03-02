@@ -1,4 +1,21 @@
 {% extends 'base.html' %}
+
+{% block style %}
+<style>
+  .razorpay-payment-button {
+    border-radius: 10px;
+    padding: 10px 20px;
+    border: none;
+    color: #fff;
+    background-color: var(--bs-red);
+  }
+  .razorpay-payment-button:hover {
+    scale: 0.9;
+  }
+</style>
+{% endblock %}
+
+
 {% block body %}
 <div class="card">
   <div class="card-body">
@@ -24,7 +41,8 @@
               <li><a class="dropdown-item"
                   href="https://api.whatsapp.com/send?text=Hi, here's the invoice I generated {{ share_link }}."><i
                     class="fab fa-whatsapp text-success"></i> Whatsapp</a></li>
-              <li><a class="dropdown-item" href="tg://msg_url?url={{ share_link }}&text=Hi, here's the invoice I generated."><i
+              <li><a class="dropdown-item"
+                  href="tg://msg_url?url={{ share_link }}&text=Hi, here's the invoice I generated."><i
                     class="fab fa-telegram-plane text-primary"></i> Telegram</a></li>
               <li><a class="dropdown-item"
                   href="mailto:?subject=Invoice&body=Hi, here's the invoice I generated {{ share_link }}"><i
@@ -97,8 +115,8 @@
                 <th scope="row">{{ loop.index0 + 1}}</th>
                 <td>{{ item['item_name'] }}</td>
                 <td>{{ item['item_qty'] }}</td>
-                <td>${{ item['item_unitprice'] }}</td>
-                <td>${{ item['amount'] }}</td>
+                <td>₹{{ item['item_unitprice'] }}</td>
+                <td>₹{{ item['amount'] }}</td>
               </tr>
               {% endfor %}
             </tbody>
@@ -119,12 +137,12 @@
           </div>
           <div class="col-xl-3">
             <ul class="list-unstyled">
-              <li class="text-muted ms-3"><span class="text-black me-4">SubTotal</span>${{ sub_total }}</li>
-              <li class="text-muted ms-3 mt-2"><span class="text-black me-4">Tax({{ data['tax_percentage']}}%)</span>${{
+              <li class="text-muted ms-3"><span class="text-black me-4">SubTotal</span>₹{{ sub_total }}</li>
+              <li class="text-muted ms-3 mt-2"><span class="text-black me-4">Tax({{ data['tax_percentage']}}%)</span>₹{{
                 tax }}</li>
             </ul>
             <p class="text-black float-start"><span class="text-black me-3"> Total Amount</span><span
-                style="font-size: 25px;">${{ total }}</span></p>
+                style="font-size: 25px;">₹{{ total }}</span></p>
           </div>
         </div>
         <hr>
@@ -132,16 +150,20 @@
           <div class="col-xl-10">
             <p>{{ data['footer'] }}</p>
           </div>
-          <div class="col-xl-2">
-            {% if data['invoice_type'] == 'unpaid' %}
-            <button type="button" class="btn btn-outline-danger text-capitalize"">Pay Now</button>
-              {% endif %}
-            </div>
-          </div>
-  
+          {% if data['invoice_type'] == 'unpaid' %}
+          <form action="/success" method="POST" style="all: unset;">
+              <script src="https://checkout.razorpay.com/v1/checkout.js" data-key="rzp_test_RlX83k2oTLomoQ"
+                data-amount="{{ (total * 100)|int }}" data-currency="INR" data-buttontext="Pay"
+                data-name="{{ data['sp_name'] }}" data-image="{{ image }}"
+                data-prefill.name="{{ data['c_fname'] + data['c_lname'] }}" data-allow-remembered-cards="false"
+                data-prefill.email="{{ data['c_email'] }}" data-theme.color="#F37254" data-class="btn"></script>
+            <input type="hidden" name="invoice_id" value="{{ data['invoice_id'] }}" />
+          </form>
+          {% endif %}
         </div>
       </div>
     </div>
   </div>
+</div>
 
 {% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block style %}
+<style>
+    body {
+        background-color: #f8f9fa;
+        font-family: Arial, sans-serif;
+    }
+    .container {
+        margin-top: 100px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        text-align: center;
+    }
+    .display-4 {
+        font-size: 100px;
+    }
+    h1 {
+        font-size: 40px;
+        font-weight: bold;
+        margin-top: 20px;
+        margin-bottom: 30px;
+    }
+    p {
+        font-size: 18px;
+        margin-bottom: 0;
+    }
+    .invoice {
+        font-size: 24px;
+        font-weight: bold;
+        color: #007bff;
+        margin-top: 5px;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="display-4 text-success">&#10004;</div>
+    <h1>Payment Successful</h1>
+    <p>Thank you for your purchase.</p>
+    <p class="invoice">Your Invoice ID: {{ invoice_id }}</p>
+    <strong>You will be redirected in 5 seconds...</strong>
+</div>
+<script>
+    setTimeout(function() {
+  location.href = `/share?id=${btoa("{{ invoice_id }}")}`;
+}, 5000);
+</script>
+{% endblock %}
