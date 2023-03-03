@@ -152,11 +152,11 @@
           </div>
           {% if data['invoice_type'] == 'unpaid' %}
           <form action="/success" method="POST" style="all: unset;">
-              <script src="https://checkout.razorpay.com/v1/checkout.js" data-key="rzp_live_Dktah4YBRI39J2"
+              <script src="https://checkout.razorpay.com/v1/checkout.js" data-key="rzp_live_J7Rm6Qlnt9y72V"
                 data-amount="{{ (total * 100)|int }}" data-currency="INR" data-buttontext="Pay"
                 data-name="{{ data['sp_name'] }}" data-image="{{ image }}"
                 data-prefill.name="{{ data['c_fname'] + data['c_lname'] }}" data-allow-remembered-cards="false"
-                data-prefill.email="{{ data['c_email'] }}" data-theme.color="#F37254" data-class="btn"></script>
+                data-prefill.email="{{ data['c_email'] }}" data-theme.color="#F37254" data-order_id="{{ data['order_id'] }}"></script>
             <input type="hidden" name="invoice_id" value="{{ data['invoice_id'] }}" />
           </form>
           {% endif %}
