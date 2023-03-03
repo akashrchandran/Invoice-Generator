@@ -12,7 +12,7 @@ import razorpay
 
 app = Flask(__name__)
 
-client = razorpay.Client(auth=("rzp_test_RlX83k2oTLomoQ", os.environ.get('RAZORPAY_Secret')))
+client = razorpay.Client(auth=("rzp_live_Dktah4YBRI39J2", os.environ.get('RAZORPAY_Secret')))
 client.set_app_details({"title" : "Invoice Generator", "version" : "v0.0.1"})
 
 @app.route('/')
