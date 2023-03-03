@@ -1,7 +1,9 @@
 import os
 
 import pymongo
+import dotenv
 
+dotenv.load_dotenv()
 client = pymongo.MongoClient(os.environ.get('MONGO_URI'))
 db = client.invoice_generator
 invoice = db.invoice
