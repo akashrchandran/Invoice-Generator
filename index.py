@@ -9,10 +9,13 @@ from werkzeug.datastructures import MultiDict
 
 from mongo import add_invoice, get_invoice, update_invoice
 import razorpay
+import dotenv
+
+dotenv.load_dotenv()
 
 app = Flask(__name__)
 
-client = razorpay.Client(auth=("rzp_live_Dktah4YBRI39J2", os.environ.get('RAZORPAY_Secret')))
+client = razorpay.Client(auth=("rzp_live_J7Rm6Qlnt9y72V", os.environ.get('RAZORPAY_Secret')))
 client.set_app_details({"title" : "Invoice Generator", "version" : "v0.0.1"})
 
 @app.route('/')
@@ -46,6 +49,16 @@ def invoice():
     form['sub_total'] = sub_total
     form['tax'] = tax
     form['total'] = total
+    form['order_id'] = client.order.create({
+        "amount": int(total * 100),
+        "currency": "INR",
+        "receipt": data['invoice_id'],
+        "partial_payment":False,
+        "notes": {
+            "name": data['c_fname'] + '  ' + data['c_lname'],
+            "email": data['c_email'],
+        }
+    })['id']
     add_invoice(form.to_dict())
     share_link = f'{request.url_root}share?id={base64.b64encode(data["invoice_id"].encode("utf-8")).decode("utf-8")}'
     return render_template('invoice.html', image=img_url, data=data, invoice_date=invoice_date, invoice_due_date=invoice_due_date, items=items, sub_total=sub_total, tax=tax, total=total, share_link=share_link)
