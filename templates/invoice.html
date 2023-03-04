@@ -9,6 +9,7 @@
     color: #fff;
     background-color: var(--bs-red);
   }
+
   .razorpay-payment-button:hover {
     scale: 0.9;
   }
@@ -150,46 +151,48 @@
           <div class="col-xl-10">
             <p>{{ data['footer'] }}</p>
           </div>
-          {% if data['invoice_type'] == 'unpaid' %}
-          <button id="rzp-button1">Pay</button>
+          <div class="col-xl-2">
+            {% if data['invoice_type'] == 'unpaid' %}
+            <button id="rzp-button1" class="btn btn-outline-danger text-capitalize">Pay</button>
+          </div>
           <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
           <script>
-              document.getElementById("rzp-button1").onclick = async function (e) {
-                  e.preventDefault();
-                  let response = await fetch( window.location.origin +"/create/order", {
-                      method: "POST",
-                      headers: {
-                          "Content-Type": "application/json",
-                      },
-                      body: JSON.stringify({
-                          amount: "{{ total }}",
-                          invoice_id: "{{ data['invoice_id'] }}",
-                      }),
-                  });
-                  let orderData = await response.json();
-                  var options = {
-                      key: "rzp_test_L9OIPDvaiZydu8",
-                      amount: orderData.order.amount, //need to update amount here
-                      currency: "INR",
-                      order_id: orderData.order.id,
-                      "callback_url": window.location.origin + "/success",
-                      "name": "{{ data['sp_name'] }}",
-                      "description": "Test Transaction",
-                      "image": "{{ image }}",
-                      "prefill": {
-                          "name": "{{ data['c_fname'] + data['c_lname'] }}",
-                          "email": "{{ data['c_email'] }}",
-                      },
-                      "notes": {
-                          "invoice_id": "{{ data['invoice_id'] }}"
-                      },
-                      "theme": {
-                          "color": "#000000"
-                      }
-                  };
-                  var rzp1 = new Razorpay(options);
-                  rzp1.open();
+            document.getElementById("rzp-button1").onclick = async function (e) {
+              e.preventDefault();
+              let response = await fetch(window.location.origin + "/create/order", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  amount: "{{ total }}",
+                  invoice_id: "{{ data['invoice_id'] }}",
+                }),
+              });
+              let orderData = await response.json();
+              var options = {
+                key: "rzp_test_L9OIPDvaiZydu8",
+                amount: orderData.order.amount, //need to update amount here
+                currency: "INR",
+                order_id: orderData.order.id,
+                "callback_url": window.location.origin + "/success",
+                "name": "{{ data['sp_name'] }}",
+                "description": "Test Transaction",
+                "image": "{{ image }}",
+                "prefill": {
+                  "name": "{{ data['c_fname'] + data['c_lname'] }}",
+                  "email": "{{ data['c_email'] }}",
+                },
+                "notes": {
+                  "invoice_id": "{{ data['invoice_id'] }}"
+                },
+                "theme": {
+                  "color": "#000000"
+                }
               };
+              var rzp1 = new Razorpay(options);
+              rzp1.open();
+            };
           </script>
           {% endif %}
         </div>
