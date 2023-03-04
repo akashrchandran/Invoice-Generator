@@ -151,14 +151,46 @@
             <p>{{ data['footer'] }}</p>
           </div>
           {% if data['invoice_type'] == 'unpaid' %}
-          <form action="/success" method="POST" style="all: unset;">
-              <script src="https://checkout.razorpay.com/v1/checkout.js" data-key="rzp_live_J7Rm6Qlnt9y72V"
-                data-amount="{{ (total * 100)|int }}" data-currency="INR" data-buttontext="Pay"
-                data-name="{{ data['sp_name'] }}" data-image="{{ image }}"
-                data-prefill.name="{{ data['c_fname'] + data['c_lname'] }}" data-allow-remembered-cards="false"
-                data-prefill.email="{{ data['c_email'] }}" data-theme.color="#F37254" data-order_id="{{ data['order_id'] }}"></script>
-            <input type="hidden" name="invoice_id" value="{{ data['invoice_id'] }}" />
-          </form>
+          <button id="rzp-button1">Pay</button>
+          <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+          <script>
+              document.getElementById("rzp-button1").onclick = async function (e) {
+                  e.preventDefault();
+                  let response = await fetch("http://localhost:8080/create/order", {
+                      method: "POST",
+                      headers: {
+                          "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({
+                          amount: "{{ total }}",
+                          invoice_id: "{{ data['invoice_id'] }}",
+                      }),
+                  });
+                  let orderData = await response.json();
+                  var options = {
+                      key: "rzp_live_J7Rm6Qlnt9y72V",
+                      amount: orderData.order.amount, //need to update amount here
+                      currency: "INR",
+                      order_id: orderData.order.id,
+                      "callback_url": "http://localhost:8080/success",
+                      "name": "{{ data['sp_name'] }}",
+                      "description": "Test Transaction",
+                      "image": "{{ image }}",
+                      "prefill": {
+                          "name": "{{ data['c_fname'] + data['c_lname'] }}",
+                          "email": "{{ data['c_email'] }}",
+                      },
+                      "notes": {
+                          "invoice_id": "{{ data['invoice_id'] }}"
+                      },
+                      "theme": {
+                          "color": "#000000"
+                      }
+                  };
+                  var rzp1 = new Razorpay(options);
+                  rzp1.open();
+              };
+          </script>
           {% endif %}
         </div>
       </div>
