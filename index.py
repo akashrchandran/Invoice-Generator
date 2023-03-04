@@ -4,14 +4,14 @@ import random
 from datetime import date, datetime
 
 import requests
-from flask import Flask, render_template, request
+from flask import Flask, jsonify, render_template, request
 from werkzeug.datastructures import MultiDict
 
 from mongo import add_invoice, get_invoice, update_invoice
 import razorpay
-import dotenv
+# import dotenv
 
-dotenv.load_dotenv()
+# dotenv.load_dotenv()
 
 app = Flask(__name__)
 
@@ -49,19 +49,24 @@ def invoice():
     form['sub_total'] = sub_total
     form['tax'] = tax
     form['total'] = total
-    form['order_id'] = client.order.create({
-        "amount": int(total * 100),
-        "currency": "INR",
-        "receipt": data['invoice_id'],
-        "partial_payment":False,
-        "notes": {
-            "name": data['c_fname'] + '  ' + data['c_lname'],
-            "email": data['c_email'],
-        }
-    })['id']
     add_invoice(form.to_dict())
     share_link = f'{request.url_root}share?id={base64.b64encode(data["invoice_id"].encode("utf-8")).decode("utf-8")}'
     return render_template('invoice.html', image=img_url, data=data, invoice_date=invoice_date, invoice_due_date=invoice_due_date, items=items, sub_total=sub_total, tax=tax, total=total, share_link=share_link)
+
+@app.route('/create/order', methods=['POST'])
+def pay():
+    data=request.get_json()
+    amount = float(data['amount'])
+    invoice_id = data['invoice_id']
+    order = client.order.create({
+        'amount': amount * 100, 
+        'currency': 'INR', 
+        'receipt': invoice_id,
+    })
+    return jsonify({
+        'success': True,
+        'order': order,
+    }), 201
 
 @app.route('/share', methods=['GET'])
 def share():
