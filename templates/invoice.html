@@ -156,7 +156,7 @@
           <script>
               document.getElementById("rzp-button1").onclick = async function (e) {
                   e.preventDefault();
-                  let response = await fetch("http://localhost:8080/create/order", {
+                  let response = await fetch( window.location.origin +"/create/order", {
                       method: "POST",
                       headers: {
                           "Content-Type": "application/json",
@@ -172,7 +172,7 @@
                       amount: orderData.order.amount, //need to update amount here
                       currency: "INR",
                       order_id: orderData.order.id,
-                      "callback_url": "http://localhost:8080/success",
+                      "callback_url": window.location.origin + "/success",
                       "name": "{{ data['sp_name'] }}",
                       "description": "Test Transaction",
                       "image": "{{ image }}",
