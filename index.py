@@ -95,6 +95,9 @@ def success():
     update_invoice(invoice_id, pay_details['method'])
     return render_template('success.html', invoice_id=invoice_id)
 
+@app.route('/login', methods=['GET'])
+def login():
+    return render_template('login.html')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080)
+    app.run(host='0.0.0.0', port=8080, debug=True)
