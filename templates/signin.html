@@ -1,9 +1,20 @@
 {% extends 'base.html' %}
+
+{% block style %}
+<style>
+    body {
+        background: whitesmoke;
+    }
+    .container {
+        background: white;
+    }
+</style>
+{% endblock %}
 {% block body %}
 <section class="vh-100 gradient-custom d-flex align-items-center justify-content-center">
     <div class="container w-25 shadow-lg rounded">
         <form>
-            <h1 class="text-center py-3">Login Form</h1>
+            <h1 class="text-center py-3">Sign in</h1>
             <!-- Email input -->
             <div class="form-outline mb-4">
                 <label class="form-label" for="form2Example1">Email address</label>
@@ -24,27 +35,6 @@
             <div class="d-flex justify-content-center">
                 <button type="button" class="btn btn-primary btn-block mb-4 text-center">Sign in</button>
             </div>
-
-            <!-- Register buttons -->
-            <!-- <div class="text-center">
-                <p>Not a member? <a href="#!">Register</a></p>
-                <p>or sign up with:</p>
-                <button type="button" class="btn btn-link btn-floating mx-1">
-                    <i class="fab fa-facebook-f"></i>
-                </button>
-
-                <button type="button" class="btn btn-link btn-floating mx-1">
-                    <i class="fab fa-google"></i>
-                </button>
-
-                <button type="button" class="btn btn-link btn-floating mx-1">
-                    <i class="fab fa-twitter"></i>
-                </button>
-
-                <button type="button" class="btn btn-link btn-floating mx-1">
-                    <i class="fab fa-github"></i>
-                </button>
-            </div> -->
         </form>
     </div>
 </section>

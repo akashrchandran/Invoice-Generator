@@ -9,9 +9,9 @@ from werkzeug.datastructures import MultiDict
 
 from mongo import add_invoice, get_invoice, update_invoice
 import razorpay
-# import dotenv
+import dotenv
 
-# dotenv.load_dotenv()
+dotenv.load_dotenv()
 
 app = Flask(__name__)
 
@@ -95,9 +95,13 @@ def success():
     update_invoice(invoice_id, pay_details['method'])
     return render_template('success.html', invoice_id=invoice_id)
 
-@app.route('/login', methods=['GET'])
-def login():
-    return render_template('login.html')
+@app.route('/signin', methods=['GET'])
+def signin():
+    return render_template('signin.html')
+
+@app.route('/signup', methods=['GET'])
+def signup():
+    return render_template('signup.html')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
