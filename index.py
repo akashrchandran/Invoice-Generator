@@ -15,6 +15,7 @@ import dotenv
 dotenv.load_dotenv()
 
 app = Flask(__name__)
+app.secret_key = os.environ.get('SECRET_KEY')
 
 client = razorpay.Client(auth=("rzp_test_L9OIPDvaiZydu8", os.environ.get('RAZORPAY_Secret')))
 client.set_app_details({"title" : "Invoice Generator", "version" : "v0.0.1"})
