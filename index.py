@@ -1,13 +1,14 @@
 import base64
+import bcrypt
 import os
 import random
 from datetime import date, datetime
 
 import requests
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, redirect, render_template, request, session, url_for
 from werkzeug.datastructures import MultiDict
 
-from mongo import add_invoice, get_invoice, update_invoice
+from mongo import add_invoice, get_invoice, update_invoice, get_user, add_user
 import razorpay
 import dotenv
 
@@ -95,13 +96,33 @@ def success():
     update_invoice(invoice_id, pay_details['method'])
     return render_template('success.html', invoice_id=invoice_id)
 
-@app.route('/signin', methods=['GET'])
+
+@app.route('/signin', methods=['GET', 'POST'])
 def signin():
+    if request.method == 'POST':
+        if login_user := get_user(request.form['email']):
+            if bcrypt.checkpw(request.form['password'].encode('utf-8'), login_user['password']):
+                session['email'] = request.form['email']
+                return redirect(url_for('index'))
+        return 'Invalid email/password combination'
     return render_template('signin.html')
 
-@app.route('/signup', methods=['GET'])
+@app.route('/signup', methods=['GET', 'POST'])
 def signup():
-    return render_template('signup.html')
+    if request.method != 'POST':
+        return render_template('signup.html')
+    existing_user = get_user(request.form['email'])
+    if existing_user is None:
+        hashpass = bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt())
+        add_user({'email' : request.form['email'], 'password' : hashpass})
+        session['email'] = request.form['email']
+        return redirect(url_for('index'))
+    return 'That email already exists!'
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
