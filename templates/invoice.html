@@ -18,7 +18,7 @@
 
 {% block head %}
 <meta property="og:title" content="Invoice Generator" />
-<meta property="og:description" content="Payment of {{ total }} from {{ data['c_fname'] }} {{ data['c_lname']}} To {{ data['sp_name'] }}" />
+<meta property="og:description" content="A payment of {{ total }} is required from {{ data['c_fname'] }} {{ data['c_lname']}} to settle the invoice from {{ data['sp_name'] }}." />
 <meta property="og:image" content="{{ image }}" />
 <meta property="og:url" content="{{ share_link }}" />
 {% endblock %}
