@@ -92,8 +92,8 @@ def upload_image(image_data):
 @app.route('/success', methods=['POST'])
 def success():
     payment_id = request.form['razorpay_payment_id']
-    invoice_id = request.form['invoice_id']
     pay_details = client.payment.fetch(payment_id)
+    invoice_id = pay_details['notes']['invoice_id']
     update_invoice(invoice_id, pay_details['method'])
     return render_template('success.html', invoice_id=invoice_id)
 
@@ -127,3 +127,4 @@ def logout():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
+
