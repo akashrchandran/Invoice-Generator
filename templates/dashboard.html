@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+{% block body %}
+<main class="">
+    <header class="d-flex flex-row mb-3 pt-4 pb-3 px-5 justify-content-between align-items-center">
+        <h1 class="fs-4 fw-bold">Dashboard</h1>
+        <ul class="d-flex align-items-center">
+            <li class="px-3">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="6.5" cy="6.5" r="5.75" stroke="#C5C7CD" stroke-width="1.5" />
+                    <path d="M11 11L15 15" stroke="#C5C7CD" stroke-width="1.5" stroke-linecap="round" />
+                </svg>
+            </li>
+            <li class="ps-3 pe-4 border-end">
+                <svg width="17" height="19" viewBox="0 0 17 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M6.99999 19C8.10374 19 8.99905 18.1047 8.99905 17H5.00093C5.00093 18.1047 5.89624 19 6.99999 19ZM13.7309 14.3216C13.1272 13.6728 11.9975 12.6969 11.9975 9.5C11.9975 7.07188 10.295 5.12812 7.99937 4.65125V4C7.99937 3.44781 7.55187 3 6.99999 3C6.44812 3 6.00062 3.44781 6.00062 4V4.65125C3.70499 5.12812 2.00249 7.07188 2.00249 9.5C2.00249 12.6969 0.872804 13.6728 0.269054 14.3216C0.0815536 14.5231 -0.00157141 14.7641 -8.9117e-06 15C0.00342859 15.5125 0.405616 16 1.00312 16H12.9969C13.5944 16 13.9969 15.5125 14 15C14.0016 14.7641 13.9184 14.5228 13.7309 14.3216Z"
+                        fill="#C5C7CD" />
+                    <circle cx="12" cy="5" r="3.75" fill="#3751FF" stroke="#F7F8FC" stroke-width="1.5" />
+                </svg>
+            </li>
+            <li class="d-flex align-items-center">
+                <p class="d-none d-md-inline-block mb-0 ms-4 me-3">Logan Lerman</p>
+                <img src="https://placedog.net/300" class="rounded-circle avatar-img" alt="avatar">
+            </li>
+        </ul>
+    </header>
+    <section class="container-fluid px-4">
+        <div class="row g-4" id="infoCardContainer">
+            <div class="col-6 col-lg-3">
+                <div class="card stats-card text-center pt-4 bg-warning">
+                    <p class="text-black-300 fs-19 mb-1">Invoices</p>
+                    <p class="fw-bold fs-1">30</p>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="card stats-card text-center pt-4 bg-success">
+                    <p class="text-black-300 fs-19 mb-1">Paid</p>
+                    <p class="fw-bold fs-1">16</p>
+                </div>
+            </div>
+            <div class="col-6 col-lg-3">
+                <div class="card stats-card text-center pt-4 bg-danger">
+                    <p class="text-black-300 fs-19 mb-1">Unpaid</p>
+                    <p class="fw-bold fs-1">14</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="container-fluid px-4 py-4">
+        <div class="card">
+            <div class="p-5 pb-1">
+                <div>
+                    <h3 class="fs-19 fw-bold">Express Add Ticket</h3>
+                    <p class="fs-12"><span class="text-gray-300">Group:</span> Support</p>
+                </div>
+            </div>
+            <form class="row g-3 card-body p-5 pt-4">
+                <div class="col-md-6">
+                    <label for="inputTitle" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="inputTitle">
+                </div>
+                <div class="col-md-6">
+                    <label for="inputCategory" class="form-label">Category</label>
+                    <select id="inputCategory" class="form-select">
+                        <option selected>Design</option>
+                        <option>Frontend</option>
+                        <option>Backend</option>
+                    </select>
+                </div>
+                <div class="col-12">
+                    <label for="inputDetails" class="form-label">Details</label>
+                    <input type="text" class="form-control" id="inputDetails" placeholder="Enter details...">
+                </div>
+                <div class="col-md-6">
+                    <label for="inputPriority" class="form-label">Priority</label>
+                    <select id="inputPriority" class="form-select">
+                        <option selected>Low</option>
+                        <option>Medium</option>
+                        <option>High</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="inputAsignee" class="form-label">Asignee</label>
+                    <select id="inputAsignee" class="form-select">
+                        <option selected>Miriam Jackson</option>
+                        <option>Sophie Millard</option>
+                        <option>Kent Laud</option>
+                    </select>
+                </div>
+                <div class="col-12 d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary">Add Ticket</button>
+                </div>
+            </form>
+        </div>
+    </section>
+</main>
+
+{% endblock %}
